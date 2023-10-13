@@ -1,5 +1,6 @@
 package com.Api.crud.Service;
 
+import com.Api.crud.Constant.EmployeeConstant;
 import com.Api.crud.Entity.Employee;
 import com.Api.crud.Exception.EmployeeNotFoundException;
 import com.Api.crud.Repository.EmployeeRepository;
@@ -32,7 +33,7 @@ public EmployeeRepository repo;
         if(byId.isPresent()){
             return byId.get();
         }
-        return null;
+       throw new EmployeeNotFoundException("Employee Not Found by Id :- "+eid);
     }
 
     @Override
@@ -47,7 +48,7 @@ public EmployeeRepository repo;
           employee.setEid(eid);
             return repo.save(employee);
         }
-        return null;
+        throw new EmployeeNotFoundException("Employee Not Found by Id :- "+eid);
     }
 
     @Override
@@ -57,7 +58,7 @@ public EmployeeRepository repo;
             repo.deleteById(eid);
             return byId.get();
         }
-       throw new EmployeeNotFoundException("Employee Not Found By Id :-"+eid);
+       throw new EmployeeNotFoundException(EmployeeConstant.EMPLOYEE_NOT_FOUND.getValue() +eid);
 
     }
 }
