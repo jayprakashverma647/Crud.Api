@@ -5,12 +5,10 @@ import com.Api.crud.Entity.Employee;
 import com.Api.crud.Exception.EmployeeNotFoundException;
 import com.Api.crud.Repository.EmployeeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.time.Period;
-import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Optional;
 
@@ -24,13 +22,8 @@ public EmployeeRepository repo;
 
     @Override
     public Employee saveEmployee( Employee employee) {
-        String dateOfBirth = employee.getDateOfBirth();
-        DateTimeFormatter formatter=DateTimeFormatter.ofPattern("dd/MM/yyyy");
-        LocalDate dob = LocalDate.parse(dateOfBirth, formatter);
-        Period year=Period.between(dob,LocalDate.now());
-        employee.setAge(year.getYears());
+        employee.setAge(getAge(employee.getDateOfBirth()));
         return repo.save(employee);
-
     }
 
     @Override
@@ -65,6 +58,11 @@ public EmployeeRepository repo;
             return byId.get();
         }
        throw new EmployeeNotFoundException(EmployeeConstant.EMPLOYEE_NOT_FOUND.getValue() +eid);
-
     }
+
+    private static String getAge(LocalDate dob){
+        Period period=Period.between(dob,LocalDate.now());
+        return period.getDays()+" Days, "+period.getMonths()+" Months, "+period.getYears()+" Years";
+    }
+
 }

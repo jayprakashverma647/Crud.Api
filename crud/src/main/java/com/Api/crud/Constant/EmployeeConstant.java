@@ -8,5 +8,6 @@ import lombok.Getter;
 public enum EmployeeConstant {
 
     EMPLOYEE_NOT_FOUND("EMPLOYEE NOT FOUND BY ID :");
+
      private  String value;
 }

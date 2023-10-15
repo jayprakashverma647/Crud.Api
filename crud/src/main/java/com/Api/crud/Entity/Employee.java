@@ -2,13 +2,15 @@ package com.Api.crud.Entity;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
-import org.springframework.format.annotation.DateTimeFormat;
-import javax.persistence.Column;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.validation.constraints.Email;
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
+import java.time.LocalDate;
 
 
 @Entity
@@ -24,8 +26,9 @@ public class Employee {
     @Email(message = "Write a proper Way :- demo@gmail.com")
     private String email;
     private long mobile;
-  @DateTimeFormat(pattern = "dd/MM/yyyy")
-    private String dateOfBirth;
-    private int age;
+    @NotNull(message = "dob cannot be empty")
+    @JsonFormat(pattern = "dd/MM/yyyy")
+    private LocalDate dateOfBirth;
+    private String age;
 
 }

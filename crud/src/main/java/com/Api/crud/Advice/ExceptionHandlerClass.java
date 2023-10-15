@@ -9,6 +9,8 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
 import javax.crypto.ExemptionMechanismException;
+import javax.validation.UnexpectedTypeException;
+import java.time.format.DateTimeParseException;
 import java.util.HashMap;
 import java.util.Map;
 @ControllerAdvice
@@ -27,6 +29,18 @@ public class ExceptionHandlerClass {
         manve.getAllErrors().forEach(e->msgError.put("Message",e.getDefaultMessage()));
         return new ResponseEntity<>(msgError,HttpStatus.BAD_REQUEST);
     }
+    @ExceptionHandler(DateTimeParseException.class)
+    public ResponseEntity<Map<String,String>>DateTimeParseException(DateTimeParseException dte) {
+        Map<String, String> reError = new HashMap<>();
+        reError.put("message", dte.getMessage());
+        return new ResponseEntity<>(reError, HttpStatus.BAD_REQUEST);
+    }
 
+    @ExceptionHandler(UnexpectedTypeException.class)
+    public ResponseEntity<Map<String,String>> UnexpectedTypeException(UnexpectedTypeException ute){
+        Map<String,String>uteError=new HashMap<>();
+        uteError.put("message",ute.fillInStackTrace().getLocalizedMessage());
+        return new ResponseEntity<>(uteError,HttpStatus.BAD_REQUEST);
+    }
 
 }
